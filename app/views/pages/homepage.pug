@@ -1,0 +1,37 @@
+include ../_base/layout.pug
+body
+  .container
+    .row
+      include ../_components/c-navbar.pug
+    .row
+      +banner({
+        title: 'Simple.Think.',
+        subtitle:'"The little things are infinitely the most important."'
+      })
+      
+    .row.horizontal-separator
+      .box3
+        +box({
+          title: 'About Us',
+          link: 'Read more...'
+        })
+      .box3
+        +box({
+          title: 'Services',
+          link: 'Read more...'
+          })
+      .box3
+        +box({
+          title: 'News',
+          link: 'Read more...'
+        })
+      .horizontal-separator
+    .row.horizontal-separator
+      .slider__container
+        include ../_components/c-slider.pug
+
+      .sidebar__container
+        include ../_components/c-sidebar.pug
+  .row
+    //- footer
+    include ../_base/footer.pug

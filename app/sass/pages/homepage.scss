@@ -1,0 +1,19 @@
+.box3 {
+	@include grid-column(10);
+	@include media(desktop) {
+		@include grid-column($columns: 3.33, $collapse:reset);
+		padding: 0;
+	}
+}
+.slider__container {
+	@include grid-column(10);
+	@include media(desktop) {
+		@include grid-column($columns: 7, $collapse:reset);
+	}
+}
+// .sidebar {
+// 	@include grid-column(10);
+// 	@include media(desktop) {
+// 		@include grid-column($columns: 2, $collapse:reset);
+// 	}
+// }

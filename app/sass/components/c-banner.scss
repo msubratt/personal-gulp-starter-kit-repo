@@ -1,0 +1,29 @@
+.c-banner__content {
+	display: inline-block;
+}
+.c-banner__text-container {
+	@include grid-column($columns:10, $collapse:reset, $float:left);
+	@include media(desktop) {
+		@include grid-column($columns:5, $collapse:reset);
+		padding: 45px 0 0 0;
+	}
+	.c-banner__title {
+		color: $color-secondary;
+		font-size: 45px;
+		font-weight: $font-weight-normal;
+		@include media(desktop) {
+			font-size: $font-size-xtra-large;
+		}
+	}
+	.c-banner__subtitle {
+		font-size: $font-size-xsmall;
+		font-weight: $font-weight-normal;
+	}
+}
+.c-banner-img__container {
+	
+	@include grid-column($columns:10, $collapse:reset, $float:right);
+	@include media(desktop) {
+		@include grid-column($columns:5, $collapse:reset, $float:right);
+	}
+}

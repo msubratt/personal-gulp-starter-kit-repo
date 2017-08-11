@@ -1,0 +1,22 @@
+.sidebar {
+	.sidebar-title__container {
+		.sidebar__title {
+			color: $color-primary;
+			font-size: $font-size-medium;
+			text-transform: capitalize;
+			font-weight: $font-weight-medium;
+		}
+	}
+	.testimonial__container {
+		.testimonial {
+			line-height: 1.5;
+			ol {
+				li {
+					color: $color-secondary;
+					font-size: 50px;
+					margin-bottom: 7px;
+				}
+			}
+		}
+	}
+}

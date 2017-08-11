@@ -1,0 +1,456 @@
+
+/* Variables
+ ========================================================================== */
+
+// Mobile
+$mobile-device-width-min: 320px;
+$mobile-device-width-max: 480px;
+
+// Tablet
+$tablet-device-width-min: 769px;
+$tablet-device-width-max: 1024px;
+
+//Small Tablet Portrait
+$small-tablet-portrait-device-width-min: 768px; //Fix made to resolve conflicts betweetn landscape phones and portrait tablets
+
+// Big Tablet - mainly for samsung tablets
+$big-tablet-device-width-min: 800px;
+$max-device-width: 1110px;
+
+$high-pixel-ratio: 2;
+$high-pixel-ratio-min-res: 192dpi;
+$mid-pixel-ratio: 1.5;
+$mid-pixel-ratio-min-res: 144dpi;
+
+/* Responsive mixin
+ ========================================================================== */
+
+/// Mixin for responsive devices
+/// ---
+/// @access public
+/// ---
+/// @param {Keyword} $mediaList - Name of one or more device
+/// ---
+/// @example scss - Basic Usage Sass
+///    .header {
+///        color: blue;
+///        @include media(desktop) {
+///           color: red;
+///        };
+///    }
+/// @example scss - Basic Usage CSS Output
+///   .header {
+///     color: blue;
+///   }
+///
+///   @media only screen and (min-width: 1024px) {
+///     header {
+///       color: red;
+///     }
+///   }
+@mixin media($mediaList) {
+  @each $m in $mediaList {
+    @include respond-to($m) {
+      @content;
+    }
+  }
+}
+
+@mixin respond-to($media) {
+  // PHONES
+  @if $media == portrait-phones {
+    @media only screen and (max-width: $mobile-device-width-min) {
+      @content;
+    }
+  } @else if $media == landscape-phones {
+    @media only screen and (min-width: $mobile-device-width-max) and (max-width: $tablet-device-width-min) {
+      @content;
+    }
+  } @else if $media == all-phones {
+    @media only screen and (max-width: $mobile-device-width-max) {
+      @content;
+    }
+  }
+
+    // TABLETS
+  @else if $media == portrait-tablets {
+    @media only screen and (min-width: $mobile-device-width-max) and (max-width: $tablet-device-width-min) {
+      @content;
+    }
+  } @else if ($media == tablets) or ($media == landscape-tablets) {
+    // I manually added the "+1" for iPad mini issues (if you have problem with it, remove it)
+    @media only screen and (min-width: $tablet-device-width-min) and (max-width: $tablet-device-width-max - 1) {
+      @content;
+    }
+  } @else if $media == all-tablets {
+    @media only screen and (min-width: $mobile-device-width-max) and (max-width: $tablet-device-width-max - 1) {
+      @content;
+    }
+  }
+
+    //big tablets
+  @else if $media == big-tablets {
+    @media only screen and (min-width: $big-tablet-device-width-min) and (max-width: $tablet-device-width-max - 1) {
+      @content;
+    }
+  }
+
+    //small tablets
+  @else if $media == small-tablets-portrait {
+    @media only screen and (min-width: $small-tablet-portrait-device-width-min) and (max-width: $tablet-device-width-min) {
+      @content;
+    }
+  }
+
+    // DESKTOP
+  @else if $media == desktop {
+    @media only screen and (min-width: $tablet-device-width-max) {
+      @content;
+    }
+  } @else if $media == pixelhigh {
+    @media only screen and (-webkit-min-device-pixel-ratio: $high-pixel-ratio),
+    only screen and (min--moz-device-pixel-ratio: $high-pixel-ratio),
+    only screen and (-o-min-device-pixel-ratio: $high-pixel-ratio /1),
+    only screen and (min-device-pixel-ratio: $high-pixel-ratio),
+    only screen and (min-resolution: $high-pixel-ratio-min-res),
+    only screen and (min-resolution: 2dppx) {
+      @content;
+    }
+  } @else if $media == pixelmid {
+    @media only screen and (-webkit-min-device-pixel-ratio: $mid-pixel-ratio),
+    only screen and (min--moz-device-pixel-ratio: $mid-pixel-ratio),
+    only screen and (-o-min-device-pixel-ratio: $mid-pixel-ratio /1),
+    only screen and (min-device-pixel-ratio: $mid-pixel-ratio),
+    only screen and (min-resolution: $mid-pixel-ratio-min-res),
+    only screen and (min-resolution: 2dppx) {
+      @content;
+    }
+  } @else if $media == tablet-retina {
+    @media only screen and (min-width: $tablet-device-width-min) and (max-width: $tablet-device-width-max) and (-webkit-min-device-pixel-ratio: $high-pixel-ratio) {
+      @content;
+    }
+  } @else if $media == tablet-retina-landscape {
+    @media only screen and (min-width: $tablet-device-width-min) and (max-width: $tablet-device-width-max) and (orientation : landscape) and (-webkit-min-device-pixel-ratio: $high-pixel-ratio) {
+      @content;
+    }
+  } @else if $media == tablet-retina-portrait {
+    @media only screen and (min-width: $tablet-device-width-min) and (max-width: $tablet-device-width-max) and (orientation : portrait) and (-webkit-min-device-pixel-ratio: $high-pixel-ratio) {
+      @content;
+    }
+  } @else if $media == print {
+    @media print {
+      @content;
+    }
+  } @else {
+    @media only screen and ('#{$media}') {
+      @content;
+    }
+  }
+}
+
+
+/// Helper to clear inner floats
+/// Use with parcemony, prefer using the class .row
+/// ---
+/// @access public
+@mixin clearfix {
+  &:before,
+  &:after {
+    content: " ";
+    display: table;
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+/// Need documentation
+/// ---
+/// @param {Keyword} $background -
+/// @param {Keyword} $size -
+/// @param {Keyword} $angle -
+@mixin folded-corner($background, $size, $angle: 30deg) {
+
+  position: relative;
+  background: $background; /* Fallback */
+  border-radius: .5em;
+  @include linear-gradient(to $angle - 180deg, transparent $size, $background 0);
+
+  $x: $size / sin($angle);
+  $y: $size / cos($angle);
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: $y;
+    height: $x;
+    transform: translateY($y - $x) rotate(2*$angle - 90deg);
+    transform-origin: bottom right;
+    border-bottom-left-radius: inherit;
+    box-shadow: -.2em .2em .3em -.1em rgba(0, 0, 0, .15);
+    @include linear-gradient((to left bottom, transparent 50%, rgba(0, 0, 0, .2) 0, rgba(0, 0, 0, .4)) 100% 0 no-repeat);
+  }
+}
+
+/// Need documentation
+/// ---
+/// @param $paragraph-desktop-font-size
+/// @param $paragraph-desktop-line-height
+/// @param $nb-line
+@mixin height-auto-overflow-content($paragraph-desktop-font-size, $paragraph-desktop-line-height, $nb-line, $min-height: false) {
+  max-height: ($paragraph-desktop-font-size + ($paragraph-desktop-line-height - $paragraph-desktop-font-size)) * $nb-line;
+  @if $min-height == true {
+    min-height: ($paragraph-desktop-font-size + ($paragraph-desktop-line-height - $paragraph-desktop-font-size)) * $nb-line;
+  }
+  overflow: hidden;
+}
+
+/// Mixin printing a linear-gradient
+/// as well as a plain color fallback
+/// and the `-webkit-` prefixed declaration
+/// ---
+/// @access public
+/// ---
+/// @param {Keyword | Angle} $direction - Linear gradient direction
+/// @param {Arglist} $color-stops - List of color-stops composing the gradient
+@mixin linear-gradient($direction, $color-stops...) {
+  background: nth(nth($color-stops, 1), 1);
+  background: -webkit-linear-gradient($direction, $color-stops);
+  background: linear-gradient($direction, $color-stops);
+}
+
+/// Set the direction of the text
+/// ---
+/// @todo Remove this mixin
+/// ---
+/// @deprecated
+@mixin direction {
+  @if $rtl {
+    direction: rtl;
+  } @else {
+    direction: ltr;
+  }
+}
+
+/// Set a transform rotation
+/// ---
+/// @todo Remove this mixin
+/// ---
+/// @deprecated
+// @mixin directionalTransform($value) {
+//   @if $rtl {
+//     @include transform(rotate($value * -1));
+//   } @else {
+//     @include transform(rotate($value));
+//   }
+// }
+
+/// Set a transform rotation
+/// ---
+/// @todo Remove this mixin
+/// ---
+/// @deprecated
+@mixin box-shadow($shadow-1: default, $shadow-2: false, $shadow-3: false, $shadow-4: false, $shadow-5: false, $shadow-6: false, $shadow-7: false, $shadow-8: false, $shadow-9: false, $shadow-10: false) {
+  @if $shadow-1 == default {
+    $shadow-1: -compass-space-list(compact(if($default-box-shadow-inset, inset, false), $default-box-shadow-h-offset, $default-box-shadow-v-offset, $default-box-shadow-blur, $default-box-shadow-spread, $default-box-shadow-color));
+  }
+  $shadow: compact($shadow-1, $shadow-2, $shadow-3, $shadow-4, $shadow-5, $shadow-6, $shadow-7, $shadow-8, $shadow-9, $shadow-10);
+}
+
+$default-background-clip: border-box;
+/// Mixin for a background clip
+/// ---
+/// @todo Remove this mixin
+/// ---
+/// @deprecated
+@mixin background-clip($clip: $default-background-clip) {
+  // webkit and mozilla use the deprecated short [border | padding]
+  $clip: unquote($clip);
+  $deprecated: $clip;
+  @if $clip == padding-box {
+    $deprecated: padding;
+  }
+  @if $clip == border-box {
+    $deprecated: border;
+  }
+}
+
+$background-clip-placeholders: padding-box, border-box, text !default;
+
+@each $property in $background-clip-placeholders {
+  %background-clip-#{$property} {
+    @include background-clip($property);
+  }
+}
+
+/// Mixin for ellipsis text
+/// ---
+@mixin ellipsis($no-wrap: true) {
+  @if $no-wrap {
+    white-space: nowrap;
+  }
+  word-wrap: break-word;
+  overflow: hidden;
+}
+
+$hide-text-direction: left;
+
+@mixin hide-text($direction: $hide-text-direction) {
+  @if $direction == left {
+    $approximate-em-value: 12px / 1em;
+    $wider-than-any-screen: -9999em; //text-indent: $wider-than-any-screen * $approximate-em-value;
+    overflow: hidden;
+    text-align: left;
+  } @else { // slightly wider than the box prevents issues with inline-block elements
+    text-indent: 110%;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
+
+/// Mixin for headings
+/// ---
+/// @param {} $fs-map
+@mixin font-heading($fs-map) {
+  @each $fs-breakpoint, $fs-font-size in $fs-map {
+    @if $fs-breakpoint == null {
+      @include make-font-size($fs-font-size);
+    }
+    @else {
+      @include media($fs-breakpoint) {
+        @include make-font-size($fs-font-size);
+      }
+    }
+  }
+}
+
+///
+@mixin make-font-size($fs-font-size) {
+  @if type-of($fs-font-size) == "list" {
+    font-size: nth($fs-font-size, 1);
+    @if (length($fs-font-size) > 1) {
+      line-height: nth($fs-font-size, 2);
+    }
+    @if (length($fs-font-size) > 2) {
+      font-weight: nth($fs-font-size, 3);
+    }
+  }
+  @else {
+    font-size: $fs-font-size;
+  }
+}
+
+@mixin each-category($class) {
+
+  @each $name in $category-name {
+    $i: index($category-name, $name);
+  }
+}
+
+///
+@mixin theme($themeNumber: 1, $sameClass: false) {
+  @if $sameClass == false {
+    [data-theme="#{$themeNumber}"] & {
+      @content;
+    }
+  }
+
+  @if $sameClass == true {
+    &[data-theme="#{$themeNumber}"] {
+      @content;
+    }
+  }
+}
+
+/// Mixin to use for load specific css for a specific program
+/// ---
+/// @param {string} $programName - Program name value (pampers, beinggirl...)
+@mixin program($programName) {
+  @each $p in $programName {
+    @if $p == $program {
+      @content;
+    }
+  }
+}
+
+/// Mixin to declare the location of webfonts
+/// ---
+/// @param {string} $font-family -
+/// @param {string} $font-filename -
+/// @param {string} $font-folder -
+/// @param {string} $font-weight [normal] -
+/// @param {string} $font-style [normal] -
+/// @param {string} $font-stretch [normal] -
+@mixin declare-font-face($font-family, $font-filename, $font-folder, $font-weight: normal, $font-style: normal, $font-stretch: normal) {
+  @font-face {
+    font-family: $font-family;
+    src: url("../../../Fonts/#{$program}/#{$sassdir}/#{$font-folder}/#{$font-filename}-eot.eot");
+    src: url("../../../Fonts/#{$program}/#{$sassdir}/#{$font-folder}/#{$font-filename}-eot.eot#iefix") format("embedded-opentype"), url("../../../Fonts/#{$program}/#{$sassdir}/#{$font-folder}/#{$font-filename}-woff.woff") format("woff"), url("../../../Fonts/#{$program}/#{$sassdir}/#{$font-folder}/#{$font-filename}-ttf.ttf") format("truetype");
+    font-weight: $font-weight;
+    font-stretch: $font-stretch;
+    font-style: $font-style;
+  }
+}
+
+// @import "css3/transform";
+@mixin transform($transform, $only3d: false) {
+  transform: $transform;
+}
+
+// @import "css3/transition";
+@mixin transition($transition-property, $transition-time, $method: linear) {
+  -webkit-transition: $transition-property $transition-time $method;
+  -moz-transition: $transition-property $transition-time $method;
+  -ms-transition: $transition-property $transition-time $method;
+  -o-transition: $transition-property $transition-time $method;
+  transition: $transition-property $transition-time $method;
+}
+
+@mixin transition-property($property-1: $default-transition-property, $property-2: false, $property-3: false, $property-4: false, $property-5: false, $property-6: false, $property-7: false, $property-8: false, $property-9: false, $property-10: false) {
+  @if type-of($property-1) == string {
+    $property-1: unquote($property-1);
+  }
+  $properties: compact($property-1, $property-2, $property-3, $property-4, $property-5, $property-6, $property-7, $property-8, $property-9, $property-10);
+  transition-property: $properties;
+}
+
+@mixin transition-duration($duration-1: $default-transition-duration, $duration-2: false, $duration-3: false, $duration-4: false, $duration-5: false, $duration-6: false, $duration-7: false, $duration-8: false, $duration-9: false, $duration-10: false) {
+  @if type-of($duration-1) == string {
+    $duration-1: unquote($duration-1);
+  }
+  $durations: compact($duration-1, $duration-2, $duration-3, $duration-4, $duration-5, $duration-6, $duration-7, $duration-8, $duration-9, $duration-10);
+}
+
+@mixin background-opacity($color, $value: 0.5) {
+  background-color: rgba($color, $value);
+}
+
+$opacity-placeholders: 0, 0.5, 1 !default;
+
+@each $property in $opacity-placeholders {
+  %opacity-#{$property * 100} {
+    opacity: $property;
+  }
+}
+
+// @import "css3/border";
+@mixin border($style, $sides...) {
+  @if $style != "" {
+    @if $sides == "" {
+      border: $style;
+    } @else {
+      @each $side in $sides {
+        @if $side == "top" or $side == "right" or $side == "bottom" or $side == "left" {
+          border-#{$side}: $style;
+        }
+      }
+    }
+  }
+}
+
+// @import "typography/nowrap";
+@mixin nowrap {
+  white-space: nowrap;
+}

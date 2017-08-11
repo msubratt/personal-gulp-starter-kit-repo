@@ -1,0 +1,25 @@
+
+
+doctype html
+<!--[if IE 8]>
+//- html.no-js.ie.ie8(lang="#{pSassDir}", dir="#{pReadDirection}")
+<![endif]-->
+<!--[if IE 9]>
+//- html.no-js.ie.ie9(lang="#{pSassDir}", dir="#{pReadDirection}")
+<![endif]-->
+<!--[if gt IE 9]><html class="gt-ie9 non-ie" lang="en"><![endif]-->
+html
+  //- include head--> CSS N JS
+  include head.pug
+
+  body
+    include includes.pug
+    //- Block content
+    //- block content
+
+    //-   +c-no-js
+    //-   +c-skip-links
+      .wrapper#sb-site
+        .wrapper__content
+
+    script(src="/scripts/all.min.js")

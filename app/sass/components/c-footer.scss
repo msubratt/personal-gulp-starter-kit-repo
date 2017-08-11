@@ -1,0 +1,33 @@
+.footer {
+  @include grid-column($columns:10,  $collapse:reset);
+  background-color: $color-secondary;
+  display: inline-block;
+  padding: 12px 12px 35px;
+  .footer-detail__container {
+    float:left;
+    display: inline-block;
+    @include media(desktop) {
+      margin-left: 155px;
+      padding: 12px 0px 35px;
+    }
+    .footer__detail {
+      color: $white;
+      a {
+        color: $white;
+        font-size: $font-size-xtiny;
+        text-decoration: underline;
+      }
+    }
+  }
+  .footer-copyright__container {
+    float: left;
+    display: inline-block;
+    @include media(desktop) {
+      float: right;
+      margin-right: 155px;
+    }
+    .footer__copyright {
+      color: $white;
+    }
+  }
+}

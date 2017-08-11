@@ -1,0 +1,30 @@
+// main slider
+.slider-for {
+	.slick-active {
+	  img {
+	    border: 3px solid #010101;
+	  } 
+	}
+	.slick-slide {
+		img {
+    	margin: 5px auto;
+      border-radius: 5px;
+    }
+	}
+}
+// secondary slider - thumbnail
+.slider-nav {
+	.slick-slide {
+
+		img {
+			opacity: 0.4;
+			width: 65%;
+			border-radius: 5px
+		}
+	}
+	.slick-active {
+		img {
+			opacity: 1;
+		}
+	}
+}

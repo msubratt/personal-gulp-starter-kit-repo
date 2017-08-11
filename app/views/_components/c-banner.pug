@@ -1,0 +1,16 @@
+mixin banner(options)
+
+  - title = options.title || '';
+  - subtitle = options.subtitle || '';
+  - image = options.image || '';
+
+  .c-banner
+    .c-banner__container
+      .c-banner__content
+        .c-banner__text-container
+          if title
+            h1.c-banner__title #{title}
+          if subtitle
+            h2.c-banner__subtitle #{subtitle}
+        .c-banner-img__container
+          img.img--responsive.c-banner-img(width='550', height='316', src='image/picture.png')

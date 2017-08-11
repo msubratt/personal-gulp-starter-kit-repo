@@ -1,0 +1,15 @@
+mixin box(options)
+
+  - title = options.title ||'Sample Title';
+  - description = options.description || 'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.';
+  - link = options.link || '';
+
+  .box__container
+    .box-title__container
+      h3.box__title #{title}
+    .box-description__container
+      p.box__description #{description}
+    if link != ''
+      .box-link__container
+        a.box__link(href="#") #{link}
+
