@@ -4,7 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "gulp",
+    "server": "gulp server",
+    "js": "gulp js",
+    "html": "gulp html",
+    "sass": "gulp sass",
+    "watch": "gulp watch",
+    "uri": "gulp uri",
+    "pug:watch": "gulp pug-watch"
   },
   "author": "Ikhlaas Subratty",
   "license": "ISC",
@@ -15,14 +22,17 @@
     "express": "^4.13.4",
     "express-session": "^1.13.0",
     "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.1",
+    "gulp-express": "^0.3.5",
     "gulp-open": "^2.0.0",
+    "gulp-plumber": "^1.1.0",
     "gulp-pug": "^2.0.0",
+    "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.3.1",
     "gulp-uglify": "^1.5.3",
     "method-override": "^2.3.5",
+    "morgan": "^1.8.2",
     "pug": "^2.0.0-alpha6"
   },
-  "dependencies": {
-    "gulp-plumber": "^1.1.0"
-  }
+  "dependencies": {}
 }
